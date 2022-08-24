@@ -109,11 +109,11 @@
                 $page = 0;
             }
             // ページ修正
-            $nextFlag = ($page < (($maxSize-($maxSize%$size))/$size));
+            $nextFlag = ($page < ((($maxSize - 1) - (($maxSize - 1) % $size)) / $size));
             if ($nextFlag){
                 $nextpage = "true";
             }else{
-                $page = (($maxSize-($maxSize%$size))/$size);
+                $page = ((($maxSize - 1) - (($maxSize - 1) % $size)) / $size);
                 $nextpage = "false";
             }
 
