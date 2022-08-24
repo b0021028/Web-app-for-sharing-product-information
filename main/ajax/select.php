@@ -35,11 +35,11 @@
             return array_values(array_unique(preg_split('/[\p{Z}\p{Cc}]++/u', $input, $limit, PREG_SPLIT_NO_EMPTY)));
         }
         */
-        $searchword = array_values(array_unique(preg_split('/[\p{Z}\p{Cc}%_]++/u', $_GET["keywords"], -1, PREG_SPLIT_NO_EMPTY)));
+        $searchword = array_values(array_unique(preg_split('/[\p{Z}\p{Cc}]++/u', $_GET["keywords"], -1, PREG_SPLIT_NO_EMPTY)));
     } else {
         $searchword = [];
     }
-        $keywords = array_map(function($txt){return "%". $txt ."%";}, $searchword);
+        $keywords = array_map(function($txt){return "%". str_replace('%', '\%', $txt) ."%";}, $searchword);
     try {
         // データベースに接続
         $pdo = new PDO(
