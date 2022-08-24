@@ -11,7 +11,7 @@
     }
     $previousFlag = $page > 0;
     $nextFlag = ($page+$size) < $maxSize;
-    if (!$nextFlag){
+    if (!$nextFlag && $maxSize != 0){
         $page = $page % ($maxSize);
     }
 
