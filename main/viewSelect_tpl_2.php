@@ -86,7 +86,7 @@
         }
     }
 
-    let max = <?php echo $maxSize||0?>;
+    let max = <?php echo $maxSize||0?>+0;
     let min = 0;
     let listview = document.getElementById("listview");
     ajax = new AjaxSelectviewer("ajax/select.php?<?php echo "user=$user&password=$password";?>", listview, setRecodes);
