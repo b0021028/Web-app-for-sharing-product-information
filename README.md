@@ -1,10 +1,10 @@
 # Web-app-for-sharing-product-information
-#### using language : php(pdo) mysql javascript html css
+#### using language : php(pdo)5.2.0,  mysql 10.4.22-MariaDB, html+javascript+css
 ###### I am using xampp v3.3.0 and vscode for development (by b0021028)
 ----
 - ## How to trial use
   - Step 1
-    - Get and install mysql&apatch (or others with (mysql and apatch) such as xampp).
+    - Get and install mysql&apach (or others with (mysql and apach) such as xampp).
   
   - Step 2
     - Create a table in mysql by referring to  "sqlcreate.sql".
