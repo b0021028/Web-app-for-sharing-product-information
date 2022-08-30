@@ -4,7 +4,7 @@
   - Apache/2.4.52 (Win64)
   - mysql  Ver 15.1 Distrib 10.4.22-MariaDB, for Win64 (AMD64)
   - html + javascript + css
-###### I am using xampp v3.3.0 and vscode for development (by b0021028)
+###### I am using xampp v8.1.2 and vscode for development (by b0021028)
 ----
 - ## How to trial use
   - Step 1
