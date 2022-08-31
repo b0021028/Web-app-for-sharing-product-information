@@ -52,7 +52,7 @@
 
     // SQL文作成
     // user 特定
-        $result = searchUser($user_id, $password);
+        $result = searchUser($user, $password);
 
         $lenkeyword = count($keywords);
         if (!empty($result))
