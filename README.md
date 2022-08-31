@@ -43,16 +43,9 @@
   &#8595; return json
   &#8595; Format with javascript from json to html tags
   - (client) can see products
-  - ~ END ~
- 
-- ### view ~ create product 
-  - ~ START ~ 
-  -    (client) can see products
-   (client url :: main/login.php?xxx or main/select.php?xxx)
 
-  &#8595; form action "追加"
-  - 
   - ~ END ~
+
 - ### view ~ create product 
   - ~ START ~ 
   -    (client) can see products
