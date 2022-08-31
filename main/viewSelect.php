@@ -32,7 +32,7 @@
     $stmt->execute();
 
     $product = $stmt->fetchAll();
-    require_once 'viewSelect_tpl_2.php';
+    require_once __DIR__.'/viewSelect_tpl_2.php';
 
 
 

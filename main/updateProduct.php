@@ -26,37 +26,18 @@
             $delivery_date = $_POST["delivery_date"];
         }
     } else {
-        require_once "changeRecode.php";
+        require_once __DIR__."/changeRecode.php";
         exit();
     }
 
     try {
-        // データベースに接続
-        $pdo = new PDO(
-            // ホスト名、データベース名
-            'mysql:host=localhost;dbname=order;charset=utf8',
-            // ユーザー名
-            'root',
-            // パスワード
-            '',
-            // レコード列名をキーとして取得させる
-            [ PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ]
-        );
+        require_once __DIR__.'/common/pdo.php';
+        $pdo = newPDO();
 
 
     // SQL文作成
     // user 特定
-        // SQLquery作成
-        $query = 'SELECT * FROM user WHERE user_id = :user_id AND password = :password';
-        $stmt = $pdo->prepare($query);
-
-        $stmt->bindParam(':user_id', $user);
-        $stmt->bindParam(':password', $password);
-
-        $stmt->execute();
-
-        // 実行結果のフェッチ
-        $result = $stmt->fetchAll();
+        $result = searchUser($user, $password);
         if (!empty($result))
         {
             // ユーザ名
@@ -119,13 +100,15 @@
 
             }
             //$success $user $password $user_name ($Fproduct)
-            require_once "AfterExcution.php";
+            require_once __DIR__."/AfterExcution.php";
 
 
         } else {
             echo "error :: retry login";
             exit();
         }
-    }catch (Exception $e) {require_once "exception_tpl.php";}
+    }catch (Exception $e) {
+        require_once __DIR__."/exception_tpl.php";
+    }
 
 ?>
