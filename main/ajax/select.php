@@ -52,21 +52,9 @@
 
     // SQL文作成
     // user 特定
-        // SQLquery作成
-        $query = 'SELECT * FROM user WHERE user_id = :user_id AND password = :password';
+        $result = searchUser($user_id, $password);
 
-        // SQL文をセット
-        $stmt = $pdo->prepare($query);
-
-        // バインド
-        $stmt->bindParam(':user_id', $user);
-        $stmt->bindParam(':password', $password);
-
-        // SQL文を実行
-        $stmt->execute();
         $lenkeyword = count($keywords);
-        // 実行結果のフェッチ
-        $result = $stmt->fetchAll();
         if (!empty($result))
         {
 
