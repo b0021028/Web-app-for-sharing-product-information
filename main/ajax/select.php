@@ -2,31 +2,33 @@
     $defo = "";
     $user = $defo;
     $password = $defo;
-    if (!(empty($_GET["user"]) || empty($_GET["password"]))){
+    if (!(empty($_GET["user"]) || empty($_GET["password"]))) {
         $user = $_GET["user"];
         $password = $_GET["password"];
     }
 
 
-    if (isset($_GET["size"])){
+    if (isset($_GET["size"])) {
         $size = intval((string)$_GET["size"]);
-    }
-    if (!isset($size) || $size < 1){
+    } else {
         $size = 5;
     }
 
-    if (isset($_GET["page"])){
+    if (isset($_GET["page"])) {
         $page = intval((string)$_GET["page"]);
-    } else{
-        $page = 0;
-    }
-
-    if ($page < 0)
-    {
+    } else {
         $page = 0;
     }
 
 
+    if ($size < 1) {
+        $size = 1;
+    }
+    if ($page < 0) {
+        $page = 0;
+    }
+
+    // 検索ワード 分割
     if (isset($_GET["keywords"])){
     // 引用 serch https://qiita.com/mpyw/items/a704cb900dfda0fc0331
         /*
@@ -39,38 +41,20 @@
     } else {
         $searchword = [];
     }
-        $keywords = array_map(function($txt){return "%". str_replace('%', '\%', $txt) ."%";}, $searchword);
+
+    // 検索ワード 分割
+    $keywords = array_map(function($txt){return "%". str_replace('%', '\%', $txt) ."%";}, $searchword);
+
     try {
-        // データベースに接続
-        $pdo = new PDO(
-            // ホスト名、データベース名
-            'mysql:host=localhost;dbname=order;charset=utf8',
-            // ユーザー名
-            'root',
-            // パスワード
-            '',
-            // レコード列名をキーとして取得させる
-            [ PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ]
-        );
+        require_once __DIR__.'/../common/pdo.php';
+        $pdo = newPDO();
 
 
     // SQL文作成
     // user 特定
-        // SQLquery作成
-        $query = 'SELECT * FROM user WHERE user_id = :user_id AND password = :password';
+        $result = searchUser($user, $password);
 
-        // SQL文をセット
-        $stmt = $pdo->prepare($query);
-
-        // バインド
-        $stmt->bindParam(':user_id', $user);
-        $stmt->bindParam(':password', $password);
-
-        // SQL文を実行
-        $stmt->execute();
         $lenkeyword = count($keywords);
-        // 実行結果のフェッチ
-        $result = $stmt->fetchAll();
         if (!empty($result))
         {
 
@@ -108,20 +92,21 @@
             if ($page < 0){
                 $page = 0;
             }
-            // ページ修正
-            $nextFlag = ($page < ((($maxSize - 1) - (($maxSize - 1) % $size)) / $size));
+            // ページ数修正 次のページがあるか
+            $maxPage = (($maxSize - 1) - (($maxSize - 1) % $size)) / $size;
+            $nextFlag = ($page < $maxPage);
             if ($nextFlag){
                 $nextpage = "true";
             }else{
-                $page = ((($maxSize - 1) - (($maxSize - 1) % $size)) / $size);
+                $page = $maxPage;
                 $nextpage = "false";
             }
 
-            // ページスタートレコード
+            // ページ スタートレコード
             $start = $page * $size;
 
             
-            // SQL文作成
+            // SQL文 作成
 
             $query = "SELECT user.NAME AS USERNAME, p.PRODUCT_ID AS ID, type.NAME AS TYPE, p.NAME as NAME, PRICE, ORDER_DATE, DELIVERY_DATE, status.status AS STATUS".
                      " FROM (".
@@ -143,7 +128,13 @@
             }
             $stmt->execute();
         
-            $product =$stmt->fetchAll();
+            $product = $stmt->fetchAll();
+
+
+            // XSS 対策
+            require_once __DIR__.'/../common/functions.php';
+            $product = array_map( fn($x)=>array_map(fn($y)=>htmEsc($y), $x), $product);
+            $searchword = array_map(fn($x)=>htmEsc($x), $searchword);
 
             // jsonデータ送信
             $property = '{"maxvalue":'.$maxSize.',"page":'.$page.',"nextpage":'.$nextpage.',"keywords":'.json_encode($searchword).'}';
@@ -157,7 +148,8 @@
         }
         else
         {
-            exit();
+            require_once __DIR__.'/../error/403.php';
+            exit;
         }
 
 
@@ -166,8 +158,12 @@
 
     } catch (PDOException $e) {
         //例外発生したら無視
-        //require_once 'exception_tpl.php';
-        echo $e->getMessage();
-        exit();
-    } catch (Exception $e) {echo 504;exit();}
+        //require_once __DIR__.'/exception_tpl.php';
+        //echo $e->getMessage();
+        require_once __DIR__.'/../error/403.php';
+        exit;
+    } catch (Exception $e) {
+        require_once __DIR__.'/../error/403.php';
+        exit;
+    }
 ?>

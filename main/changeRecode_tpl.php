@@ -1,4 +1,8 @@
-<!DOCTYPE html>
+<?php
+//$success $user $password $user_name ($Fproduct : if $success is true)
+//
+require_once __DIR__.'/common/functions.php';
+?><!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -17,7 +21,7 @@
     <body>
         <div id="app">
             <div id="header">
-                <a>ハロー <?php echo $user_name;?> さん</a>
+                <a><?php echo header_message($user_name);?></a>
             </div>
             <div id="main">
                 <div id="content">
@@ -29,23 +33,23 @@
                             <datalist id="type"></datalist>
                         </label-->
                         <label>種類 : <select autofocus name="type" required>
-                                <option hidden value="<?php echo $product["TYPE_ID"]?>"><?php echo $product["TYPE"]?></option><?php
+                                <option hidden value="<?php echo $product["TYPE_ID"];?>"><?php echo htmEsc($product["TYPE"]);?></option><?php
                                 foreach ($types as $row){
-                                    print('<option value='.$row["TYPE_ID"].'>'.$row["NAME"].'</option>');
+                                    print('<option value='.$row["TYPE_ID"].'>'.htmEsc($row["NAME"]).'</option>');
                                 }
                             ?></select>
                         </label>
 
-                        <label>商品名 : <input type="search" name="name" value="<?php echo $product["NAME"]?>" required placeholder="<?php echo $product["NAME"]?>"></label>
+                        <label>商品名 : <input type="search" name="name" value="<?php echo htmEsc($product["NAME"]);?>" required placeholder="<?php echo htmEsc($product["NAME"]);?>"></label>
 
-                        <label>料金 : <input type="number" name="price" value="<?php echo $product["PRICE"]?>" required>円</label>
+                        <label>料金 : <input type="number" name="price" value="<?php echo $product["PRICE"];?>" required>円</label>
 
-                        <label>注文日 : <input type="date" name="order_date" value="<?php echo $product["ORDER_DATE"]?>" required></label>
+                        <label>注文日 : <input type="date" name="order_date" value="<?php echo $product["ORDER_DATE"];?>" required></label>
 
                         <label>ステータス: <select name="status" required>
-                                <option hidden value="<?php echo $product["STATUS_ID"]?>"><?php echo $product["STATUS"]?></option><?php
+                                <option hidden value="<?php echo $product["STATUS_ID"]?>"><?php echo htmEsc($product["STATUS"]);?></option><?php
                                 foreach ($status as $row){
-                                    print('<option value='.$row["STATUS_ID"].'>'.$row["STATUS"].'</option>');
+                                    print('<option value='.$row["STATUS_ID"].'>'.htmEsc($row["STATUS"]).'</option>');
                                 }
                             ?></select>
                         </label>

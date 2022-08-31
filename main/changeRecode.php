@@ -10,37 +10,18 @@
     if (!empty($_POST["id"])){
         $product_id = $_POST["id"];
     } else {
-        require_once "login.php";
+        require_once __DIR__."/login.php";
         exit();
     }
 
     try {
-        // データベースに接続
-        $pdo = new PDO(
-            // ホスト名、データベース名
-            'mysql:host=localhost;dbname=order;charset=utf8',
-            // ユーザー名
-            'root',
-            // パスワード
-            '',
-            // レコード列名をキーとして取得させる
-            [ PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC ]
-        );
+        require_once __DIR__.'/common/pdo.php';
+        $pdo = newPDO();
 
 
     // SQL文作成
     // user 特定
-        // SQLquery作成
-        $query = 'SELECT * FROM user WHERE user_id = :user_id AND password = :password';
-        $stmt = $pdo->prepare($query);
-
-        $stmt->bindParam(':user_id', $user);
-        $stmt->bindParam(':password', $password);
-
-        $stmt->execute();
-
-        // 実行結果のフェッチ
-        $result = $stmt->fetchAll();
+        $result = searchUser($user, $password);
 
         if (!empty($result))
         {
@@ -76,17 +57,19 @@
                 $stmt->execute();
                 $status = $stmt->fetchAll();
 
-                require_once "changeRecode_tpl.php";
-                exit();
+                require_once __DIR__."/changeRecode_tpl.php";
+                exit;
             } else {
                 echo "すでに値がありません";
-                exit();
+                exit;
             }
 
 
         }
 
-    } catch(Exception $e) {echo $e;}
+    } catch(Exception $e) {
+        echo $e;
+    }
 
 
 

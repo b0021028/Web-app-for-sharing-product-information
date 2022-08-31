@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+<?php
+require_once __DIR__.'/common/functions.php';
+?><!DOCTYPE html>
 <html>
 <head><!--https://qreat.tech/2712/-->
     <meta charset="utf-8">
@@ -10,7 +12,7 @@
     <div id="app">
         <div id="header">
             
-            <a>ようこそ <?php echo $user_name;?> さん</a>
+            <a><?php echo header_message($user_name);?></a>
         </div>
         <div id="main">
             <div id="leftcontent">

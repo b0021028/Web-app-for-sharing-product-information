@@ -1,5 +1,6 @@
-<?php //$statuses $types $user $user_name $password?>
-<!DOCTYPE html>
+<?php //$statuses $types $user $user_name $password?
+require_once __DIR__.'/common/functions.php';
+?><!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -20,7 +21,7 @@
         <div id="app">
             <div id="header">
 
-                <a><?php echo $user_name;?> さん こんにちは</a>
+                <a><?php echo header_message($user_name);?></a>
             </div>
             <div id="main">
                 <div id="content">
