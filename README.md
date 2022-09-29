@@ -24,7 +24,7 @@
   - main/index.html or main/login.html
    --- user login form.
    
-   &#8595; (url request) form action "ログイン". | missing login. &#8593; 
+   &#8595; (url request) form action "**ログイン**". | missing login. &#8593; 
   - main/login.php
   --- login & get user property.
  
@@ -51,24 +51,24 @@
   -    (client) can see products
    (client url :: main/login.php?xxx or main/select.php?xxx)
 
-  &#8595; form action "追加" (post)
+  &#8595; form action "**追加**" (post)
   - main/newProductForm.php
   - main/newProduct_tpl.php
 
   &#8595; return template
   - (client) set new product data
 
-  &#8595; form action "送信" (post) | Not enough data &#8593;
+  &#8595; form action "**送信**" (post) | Not enough data &#8593;
   - main/newProduct.php
   - main/AfterExcution.php
   ---common result template
 
   &#8595; return template
   - (client)
-    \| -> if form action "新規作成" continue workfrow "view ~ create product" 
-    \| -> if form action "変更" "update this recode" 
+    > -> if form action "**新規作成**" : continue workfrow "***view ~ create product***" \
+    > -> if form action "**変更**" : "*update this recode*" 
 
-  &#8595; if form action "一覧に戻る"
+  &#8595; if form action "**一覧に戻る**"
   - main/select.php
   - ~ END ~
 
