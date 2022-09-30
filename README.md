@@ -74,3 +74,7 @@
 
 
   ###### I ran out of energy for now...
+  
+  
+#  Future tasks
+The processing to jump to the last page of button"最後のページ" is lax, so I'll do something about it
